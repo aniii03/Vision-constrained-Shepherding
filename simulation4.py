@@ -53,16 +53,7 @@ def run_simulation(N, D, e, alpha):
 
     theta_s = 2 * np.pi * np.random.rand(N, 1)
     theta_d = 2 * np.pi * np.random.rand(D)
-    '''
-    cx = np.sum(position[:,0]) / N
-    cy = np.sum(position[:,1]) / N
-
-    # vector from group centre to dog
-    dx = pos_d[0,0] - cx
-    dy = pos_d[0,1] - cy
-
-    theta_d = np.arctan2(dy, dx)
-    '''
+    
     velocity = np.empty((N, 2))
     velocity[:,0] = np.cos(theta_s[:,0])
     velocity[:,1] = np.sin(theta_s[:,0])
