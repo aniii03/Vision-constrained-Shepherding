@@ -72,13 +72,13 @@ def make_animation(results, alpha):
 
             x_cone = np.concatenate((
                 [dog_pos[0]],
-                dog_pos[0] + L*np.cos(theta),
+                dog_pos[0] + L/2*np.cos(theta),
                 [dog_pos[0]]
             ))
 
             y_cone = np.concatenate((
                 [dog_pos[1]],
-                dog_pos[1] + L*np.sin(theta),
+                dog_pos[1] + L/2*np.sin(theta),
                 [dog_pos[1]]
             ))
 
