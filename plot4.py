@@ -35,7 +35,7 @@ def make_animation(results, alpha):
         #Sheep trajectories
         for i in range(pos_s_dat.shape[1]):
             traces.append(
-                go.Scatter(
+                go.Scattergl(
                     x=pos_s_dat[:t+1:5, i, 0],
                     y=pos_s_dat[:t+1:5, i, 1],
                     mode='lines',
@@ -51,7 +51,7 @@ def make_animation(results, alpha):
 
         #Group centre trajectory
         traces.append(
-            go.Scatter(
+            go.Scattergl(
                 x=group_centre[:t+1:5, 0],
                 y=group_centre[:t+1:5, 1],
                 mode='lines',
@@ -69,7 +69,7 @@ def make_animation(results, alpha):
         #Dog trajectories
         for i in range(pos_d_dat.shape[1]):
             traces.append(
-                go.Scatter(
+                go.Scattergl(
                     x=pos_d_dat[:t+1:5, i, 0],
                     y=pos_d_dat[:t+1:5, i, 1],
                     mode='lines',
