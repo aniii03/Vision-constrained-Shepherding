@@ -19,9 +19,11 @@ def make_animation(results, alpha):
     line_4 = np.linspace(0, L/2 - slit/2, points)
     line_5 = np.linspace(L/2 + slit/2, L, points)
 
+    group_centre = np.average(pos_s_dat,1)
+
     frames = []
 
-    for t in range(steps):
+    for t in range(steps+10):
         if N_escaped[t] == pos_s_dat.shape[1]:
             break
 
@@ -31,6 +33,55 @@ def make_animation(results, alpha):
 
         traces = []
 
+        #Sheep trajectories
+        for i in range(pos_s_dat.shape[1]):
+            traces.append(
+                go.Scatter(
+                    x=pos_s_dat[:t+1, i, 0],
+                    y=pos_s_dat[:t+1, i, 1],
+                    mode='lines',
+                    line=dict(
+                        color='royalblue',
+                        width=1
+                    ),
+                    opacity=0.2,
+                    showlegend=False,
+                    hoverinfo='skip'
+                )
+            )
+
+        #Group centre trajectory
+        traces.append(
+            go.Scatter(
+                x=group_centre[:t+1, 0],
+                y=group_centre[:t+1, 1],
+                mode='lines',
+                line=dict(
+                    color='darkorange',
+                    width=2
+                ),
+                opacity=0.4,
+                showlegend=True,
+                name="Group Centre trajectory",
+                hoverinfo='skip'
+            )
+        )
+        
+        #Dog trajectories
+        traces.append(
+            go.Scatter(
+                x=pos_d_dat[:t+1, 0],
+                y=pos_d_dat[:t+1, 1],
+                mode='lines',
+                line=dict(
+                    color='red',
+                    width=2
+                ),
+                opacity=0.4,
+                showlegend=False,
+                hoverinfo='skip'
+            )
+        )
         # sheep
         traces.append(
             go.Scatter(
@@ -38,7 +89,7 @@ def make_animation(results, alpha):
                 y=sheep_pos[:,1],
                 mode='markers',
                 marker=dict(
-                    size=7,
+                    size=5,
                     color='royalblue'
                 ),
                 name='Sheep'
@@ -72,13 +123,13 @@ def make_animation(results, alpha):
 
             x_cone = np.concatenate((
                 [dog_pos[0]],
-                dog_pos[0] + L/2*np.cos(theta),
+                dog_pos[0] + L*np.cos(theta),
                 [dog_pos[0]]
             ))
 
             y_cone = np.concatenate((
                 [dog_pos[1]],
-                dog_pos[1] + L/2*np.sin(theta),
+                dog_pos[1] + L*np.sin(theta),
                 [dog_pos[1]]
             ))
 
