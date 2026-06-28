@@ -77,7 +77,7 @@ def make_animation(results, alpha):
                     color='red',
                     width=2
                 ),
-                opacity=0.2,
+                opacity=0.4,
                 showlegend=False,
                 hoverinfo='skip'
             )
