@@ -26,103 +26,142 @@ def make_animation(results, alpha):
         sheep_pos = pos_s_dat[t]
         dog_pos = pos_d_dat[t]
 
-        # handle one dog or many dogs
-        dog_pos = np.atleast_2d(dog_pos)
+        group_centre = np.average(pos_s_dat,1)
+        frame_data = []
 
-        frames.append(
-
-            go.Frame(
-                name=str(t),
-
-                data=[
-
-                    # sheep
-                    go.Scatter(
-                        x=sheep_pos[:, 0],
-                        y=sheep_pos[:, 1],
-                        mode='markers',
-                        marker=dict(
-                            size=7,
-                            color='royalblue'
-                        ),
-                        name='Sheep'
+        #Sheep trajectories
+        for i in range(pos_s_dat.shape[1]):
+            frame_data.append(
+                go.Scatter(
+                    x=pos_s_dat[:t+1, i, 0],
+                    y=pos_s_dat[:t+1, i, 1],
+                    mode='lines',
+                    line=dict(
+                        color='royalblue',
+                        width=1
                     ),
-
-                    # dogs
-                    go.Scatter(
-                        x=dog_pos[:, 0],
-                        y=dog_pos[:, 1],
-                        mode='markers',
-                        marker=dict(
-                            size=10,
-                            color='red'
-                        ),
-                        name='Dog'
-                    )
-
-                ],
-
-                layout=go.Layout(
-                    title_text=f"Time = {t}"
+                    opacity=0.2,
+                    showlegend=False,
+                    hoverinfo='skip'
                 )
             )
 
+        #Group centre trajectory
+        frame_data.append(
+            go.Scatter(
+                x=group_centre[:t+1, 0],
+                y=group_centre[:t+1, 1],
+                mode='lines',
+                line=dict(
+                    color='darkorange',
+                    width=2
+                ),
+                opacity=0.4,
+                showlegend=True,
+                name="Group Centre trajectory",
+                hoverinfo='skip'
+            )
+        )
+
+        #Dog trajectories
+        for i in range(pos_d_dat.shape[1]):
+            frame_data.append(
+                go.Scatter(
+                    x=pos_d_dat[:t+1, i, 0],
+                    y=pos_d_dat[:t+1, i, 1],
+                    mode='lines',
+                    line=dict(
+                        color='red',
+                        width=2
+                    ),
+                    opacity=0.4,
+                    showlegend=False,
+                    hoverinfo='skip'
+                )
+            )
+
+        #Current sheep positions
+        frame_data.append(
+            go.Scatter(
+                x=sheep_pos[:, 0],
+                y=sheep_pos[:, 1],
+                mode='markers',
+                marker=dict(
+                    size=7,
+                    color='royalblue'
+                ),
+                name='Sheep'
+            )
+        )
+
+        #Current dog position
+        frame_data.append(
+            go.Scatter(
+                x=dog_pos[:, 0],
+                y=dog_pos[:, 1],
+                mode='markers',
+                marker=dict(
+                    size=10,
+                    color='red'
+                ),
+                name='Dog'
+            )
+        )
+
+        frame_data.extend(
+            [
+                # Boundaries
+                go.Scatter(
+                    x=line_1,
+                    y=line_2,
+                    mode='lines',
+                    line=dict(color='gray', width=3),
+                    showlegend=False
+                ),
+
+                go.Scatter(
+                    x=line_2,
+                    y=line_1,
+                    mode='lines',
+                    line=dict(color='gray', width=3),
+                    showlegend=False
+                ),
+
+                go.Scatter(
+                    x=line_3 * L,
+                    y=line_4,
+                    mode='lines',
+                    line=dict(color='gray', width=3),
+                    showlegend=False
+                ),
+
+                go.Scatter(
+                    x=line_3 * L,
+                    y=line_5,
+                    mode='lines',
+                    line=dict(color='gray', width=3),
+                    showlegend=False
+                ),
+
+                go.Scatter(
+                    x=line_2,
+                    y=line_3 * L,
+                    mode='lines',
+                    line=dict(color='gray', width=3),
+                    showlegend=False
+                )
+            ]
+        )
+
+        frames.append(
+            go.Frame(
+                data=frame_data,
+                name=str(t)
+            )
         )
 
     fig = go.Figure(
-
-        data=[
-
-            frames[0].data[0],
-            frames[0].data[1],
-
-            # left wall
-            go.Scatter(
-                x=line_1,
-                y=line_2,
-                mode='lines',
-                line=dict(color='gray', width=3),
-                showlegend=False
-            ),
-
-            # bottom wall
-            go.Scatter(
-                x=line_2,
-                y=line_1,
-                mode='lines',
-                line=dict(color='gray', width=3),
-                showlegend=False
-            ),
-
-            # right wall lower
-            go.Scatter(
-                x=line_3*L,
-                y=line_4,
-                mode='lines',
-                line=dict(color='gray', width=3),
-                showlegend=False
-            ),
-
-            # right wall upper
-            go.Scatter(
-                x=line_3*L,
-                y=line_5,
-                mode='lines',
-                line=dict(color='gray', width=3),
-                showlegend=False
-            ),
-
-            # top wall
-            go.Scatter(
-                x=line_2,
-                y=line_3*L,
-                mode='lines',
-                line=dict(color='gray', width=3),
-                showlegend=False
-            )
-
-        ],
-
+        data=frames[0].data,
         frames=frames
     )
 
