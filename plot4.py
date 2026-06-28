@@ -17,8 +17,10 @@ def make_animation(results, alpha):
     line_4 = np.linspace(0, L/2 - slit/2, points)
     line_5 = np.linspace(L/2 + slit/2, L, points)
 
-    steps = pos_s_dat.shape[0]
+    group_centre = np.average(pos_s_dat,1)
 
+    steps = pos_s_dat.shape[0]
+    print(steps)
     frames = []
 
     for t in range(steps):
@@ -29,7 +31,58 @@ def make_animation(results, alpha):
         dog_vel = vel_d_dat[t]
 
         traces = []
+        
+        #Sheep trajectories
+        for i in range(pos_s_dat.shape[1]):
+            traces.append(
+                go.Scatter(
+                    x=pos_s_dat[:t+1:2, i, 0],
+                    y=pos_s_dat[:t+1:2, i, 1],
+                    mode='lines',
+                    line=dict(
+                        color='royalblue',
+                        width=1
+                    ),
+                    opacity=0.2,
+                    showlegend=False,
+                    hoverinfo='skip'
+                )
+            )
 
+        #Group centre trajectory
+        traces.append(
+            go.Scatter(
+                x=group_centre[:t+1:2, 0],
+                y=group_centre[:t+1:2, 1],
+                mode='lines',
+                line=dict(
+                    color='darkorange',
+                    width=2
+                ),
+                opacity=0.4,
+                showlegend=True,
+                name="Group Centre trajectory",
+                hoverinfo='skip'
+            )
+        )
+        
+        #Dog trajectories
+        for i in range(pos_d_dat.shape[1]):
+            traces.append(
+                go.Scatter(
+                    x=pos_d_dat[:t+1:5, i, 0],
+                    y=pos_d_dat[:t+1:5, i, 1],
+                    mode='lines',
+                    line=dict(
+                        color='red',
+                        width=2
+                    ),
+                    opacity=0.4,
+                    showlegend=False,
+                    hoverinfo='skip'
+                )
+            )
+        
         # Sheep
         traces.append(
             go.Scatter(
@@ -37,7 +90,7 @@ def make_animation(results, alpha):
                 y=sheep_pos[:, 1],
                 mode='markers',
                 marker=dict(
-                    size=7,
+                    size=5,
                     color='royalblue'
                 ),
                 name='Sheep'
