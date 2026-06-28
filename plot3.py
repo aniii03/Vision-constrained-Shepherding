@@ -23,7 +23,7 @@ def make_animation(results, alpha):
 
     frames = []
 
-    for t in range(steps+10):
+    for t in range(steps):
         if N_escaped[t] == pos_s_dat.shape[1]:
             break
 
