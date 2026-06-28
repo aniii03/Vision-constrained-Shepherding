@@ -50,5 +50,5 @@ with st.status("Calculating trajectories...", expanded=False) as status:
     status.update(label="Building animation...")
     fig = plot.make_animation(results, vision_angle)
     status.update(label="Done!", state="complete")
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width='stretch')
 
