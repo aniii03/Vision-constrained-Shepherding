@@ -36,8 +36,8 @@ def make_animation(results, alpha):
         for i in range(pos_s_dat.shape[1]):
             traces.append(
                 go.Scatter(
-                    x=pos_s_dat[:t+1:2, i, 0],
-                    y=pos_s_dat[:t+1:2, i, 1],
+                    x=pos_s_dat[:t+1:5, i, 0],
+                    y=pos_s_dat[:t+1:5, i, 1],
                     mode='lines',
                     line=dict(
                         color='royalblue',
@@ -52,8 +52,8 @@ def make_animation(results, alpha):
         #Group centre trajectory
         traces.append(
             go.Scatter(
-                x=group_centre[:t+1:2, 0],
-                y=group_centre[:t+1:2, 1],
+                x=group_centre[:t+1:5, 0],
+                y=group_centre[:t+1:5, 1],
                 mode='lines',
                 line=dict(
                     color='darkorange',
