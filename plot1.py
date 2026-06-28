@@ -14,16 +14,18 @@ def make_animation(results, alpha):
     line_4 = np.linspace(0, L / 2 - slit / 2, points)
     line_5 = np.linspace(L / 2 + slit / 2, L, points)
 
+    group_centre = np.average(pos_s_dat,1)
+    
     steps = pos_s_dat.shape[0]
-
+    
     frames = []
 
-    for t in range(steps):
+    for t in range(steps+10):
         if N_escaped[t] == pos_s_dat.shape[1]:
             break
         sheep_pos = pos_s_dat[t]
         dog_pos = pos_d_dat[t]
-        group_centre = np.average(pos_s_dat,1)
+        
         frame_data = []
 
         #Sheep trajectories
