@@ -89,7 +89,7 @@ def make_animation(results, alpha):
                 y=sheep_pos[:,1],
                 mode='markers',
                 marker=dict(
-                    size=5,
+                    size=7,
                     color='royalblue'
                 ),
                 name='Sheep'
